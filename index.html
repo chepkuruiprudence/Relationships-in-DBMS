@@ -1,0 +1,80 @@
+<h1 id="key-relationships-in-dbms-and-key-constraints">Key Relationships in DBMS and Key Constraints</h1>
+<h2 id="introduction">Introduction</h2>
+<p>A Database Management System (DBMS) uses keys and relationships to organize, retrieve, and maintain data efficiently. Understanding these concepts is crucial for designing robust databases.</p>
+<hr />
+<h2 id="what-are-keys-in-dbms">1. What are Keys in DBMS?</h2>
+<p><strong>Keys</strong> are attributes or sets of attributes that help uniquely identify a record (row) in a table. They ensure that each record can be uniquely retrieved and referenced.</p>
+<h3 id="types-of-keys">Types of Keys</h3>
+<ul>
+<li><strong>Primary Key</strong>: Uniquely identifies each record in a table. Cannot have NULL values.</li>
+<li><strong>Candidate Key</strong>: A set of attributes that can uniquely identify a record. There can be multiple candidate keys in a table.</li>
+<li><strong>Super Key</strong>: A set of one or more attributes that, taken collectively, can uniquely identify a record. All candidate keys are super keys, but not all super keys are candidate keys.</li>
+<li><strong>Alternate Key</strong>: Candidate keys that are not chosen as the primary key.</li>
+<li><strong>Foreign Key</strong>: An attribute in one table that refers to the primary key of another table. Used to establish relationships between tables.</li>
+<li><strong>Composite Key</strong>: A key that consists of two or more attributes that together uniquely identify a record.</li>
+</ul>
+<hr />
+<hr />
+<h2 id="relationships-in-dbms">3. Relationships in DBMS</h2>
+<p>Relationships define how tables are connected to each other.</p>
+<h3 id="types-of-relationships">Types of Relationships</h3>
+<ul>
+<li><strong>One-to-One (1:1)</strong>: Each record in Table A is related to one and only one record in Table B, and vice versa.</li>
+<li><strong>One-to-Many (1:N)</strong>: A record in Table A can be related to multiple records in Table B, but a record in Table B is related to only one record in Table A.</li>
+<li><strong>Many-to-Many (M:N)</strong>: Records in Table A can be related to multiple records in Table B and vice versa. Implemented using a junction (bridge) table.</li>
+</ul>
+<h3 id="example-codes-and-instances">Example Codes and Instances</h3>
+<h4 id="one-to-one-relationship">1. One-to-One Relationship</h4>
+<p><strong>Example:</strong> Each person has one passport, and each passport is assigned to one person.</p>
+<pre class="sourceCode sql"><code class="sourceCode sql"><span class="kw">CREATE</span> <span class="kw">TABLE</span> Person (
+    person_id <span class="dt">INT</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,
+    name <span class="dt">VARCHAR</span>(<span class="dv">100</span>)
+);
+
+<span class="kw">CREATE</span> <span class="kw">TABLE</span> Passport (
+    passport_id <span class="dt">INT</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,
+    person_id <span class="dt">INT</span> <span class="kw">UNIQUE</span>,
+    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (person_id) <span class="kw">REFERENCES</span> Person(person_id)
+);</code></pre>
+<h4 id="one-to-many-relationship">2. One-to-Many Relationship</h4>
+<p><strong>Example:</strong> A customer can place many orders, but each order is placed by one customer.</p>
+<pre class="sourceCode sql"><code class="sourceCode sql"><span class="kw">CREATE</span> <span class="kw">TABLE</span> Customer (
+    customer_id <span class="dt">INT</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,
+    name <span class="dt">VARCHAR</span>(<span class="dv">100</span>)
+);
+
+<span class="kw">CREATE</span> <span class="kw">TABLE</span> Orders (
+    order_id <span class="dt">INT</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,
+    order_date <span class="dt">DATE</span>,
+    customer_id <span class="dt">INT</span>,
+    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (customer_id) <span class="kw">REFERENCES</span> Customer(customer_id)
+);</code></pre>
+<h4 id="many-to-many-relationship">3. Many-to-Many Relationship</h4>
+<p><strong>Example:</strong> Students and courses. A student can enroll in many courses, and a course can have many students.</p>
+<pre class="sourceCode sql"><code class="sourceCode sql"><span class="kw">CREATE</span> <span class="kw">TABLE</span> Student (
+    student_id <span class="dt">INT</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,
+    name <span class="dt">VARCHAR</span>(<span class="dv">100</span>)
+);
+
+<span class="kw">CREATE</span> <span class="kw">TABLE</span> Course (
+    course_id <span class="dt">INT</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,
+    course_name <span class="dt">VARCHAR</span>(<span class="dv">100</span>)
+);
+
+<span class="co">-- Junction table to implement many-to-many</span>
+<span class="kw">CREATE</span> <span class="kw">TABLE</span> StudentCourse (
+    student_id <span class="dt">INT</span>,
+    course_id <span class="dt">INT</span>,
+    <span class="kw">PRIMARY</span> <span class="kw">KEY</span> (student_id, course_id),
+    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (student_id) <span class="kw">REFERENCES</span> Student(student_id),
+    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (course_id) <span class="kw">REFERENCES</span> Course(course_id)
+);</code></pre>
+<hr />
+<h2 id="importance-of-keys-and-relationships">4. Importance of Keys and Relationships</h2>
+<ul>
+<li><strong>Data Integrity</strong>: Keys and constraints prevent duplicate and inconsistent data.</li>
+<li><strong>Efficient Data Retrieval</strong>: Keys help in quickly locating records.</li>
+<li><strong>Referential Integrity</strong>: Relationships ensure that data across tables remains consistent.</li>
+</ul>
+<hr />
+<p><em>Prepared for: Presentation on Key Relationships and Key Constraints in DBMS</em></p>
