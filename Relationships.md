@@ -96,6 +96,3 @@ CREATE TABLE StudentCourse (
 
 ---
 
-
-
-*Prepared for: Presentation on Key Relationships and Key Constraints in DBMS*
